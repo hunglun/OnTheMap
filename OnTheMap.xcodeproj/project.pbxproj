@@ -14,6 +14,9 @@
 		FA0EA5B91C41C548006BE7DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA0EA5B71C41C548006BE7DA /* LaunchScreen.storyboard */; };
 		FA0EA5C11C41D49B006BE7DA /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EA5C01C41D49B006BE7DA /* TabBarController.swift */; };
 		FA0EA5C31C41DE9F006BE7DA /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EA5C21C41DE9F006BE7DA /* Model.swift */; };
+		FA0EA6101C43FE75006BE7DA /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EA60F1C43FE75006BE7DA /* TableViewController.swift */; };
+		FA0EA6121C444066006BE7DA /* InformationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EA6111C444066006BE7DA /* InformationPostingViewController.swift */; };
+		FA0EA6141C444B77006BE7DA /* InformationPostingMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EA6131C444B77006BE7DA /* InformationPostingMapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		FA0EA5BA1C41C548006BE7DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA0EA5C01C41D49B006BE7DA /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		FA0EA5C21C41DE9F006BE7DA /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		FA0EA60F1C43FE75006BE7DA /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		FA0EA6111C444066006BE7DA /* InformationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingViewController.swift; sourceTree = "<group>"; };
+		FA0EA6131C444B77006BE7DA /* InformationPostingMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationPostingMapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +66,10 @@
 			children = (
 				FA0EA5AE1C41C547006BE7DA /* AppDelegate.swift */,
 				FA0EA5B01C41C547006BE7DA /* LoginViewController.swift */,
+				FA0EA60F1C43FE75006BE7DA /* TableViewController.swift */,
 				FA0EA5B21C41C548006BE7DA /* Main.storyboard */,
+				FA0EA6131C444B77006BE7DA /* InformationPostingMapViewController.swift */,
+				FA0EA6111C444066006BE7DA /* InformationPostingViewController.swift */,
 				FA0EA5C01C41D49B006BE7DA /* TabBarController.swift */,
 				FA0EA5C21C41DE9F006BE7DA /* Model.swift */,
 				FA0EA5B51C41C548006BE7DA /* Assets.xcassets */,
@@ -141,7 +150,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0EA6121C444066006BE7DA /* InformationPostingViewController.swift in Sources */,
 				FA0EA5B11C41C547006BE7DA /* LoginViewController.swift in Sources */,
+				FA0EA6141C444B77006BE7DA /* InformationPostingMapViewController.swift in Sources */,
+				FA0EA6101C43FE75006BE7DA /* TableViewController.swift in Sources */,
 				FA0EA5C11C41D49B006BE7DA /* TabBarController.swift in Sources */,
 				FA0EA5AF1C41C547006BE7DA /* AppDelegate.swift in Sources */,
 				FA0EA5C31C41DE9F006BE7DA /* Model.swift in Sources */,
