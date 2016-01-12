@@ -14,9 +14,6 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
     @IBOutlet var urlTextField : UITextField!
     var mapString : String!
     var locationCoordinate : CLLocationCoordinate2D!
-//    var firstName : String!
-//    var lastName : String!
-//    var mediaURL : String!
     
     override func viewDidLoad() {
         super.viewDidLoad()

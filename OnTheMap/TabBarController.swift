@@ -30,39 +30,12 @@ class TabBarController : UITabBarController {
         //TODO: logout
     }
     
-    func getStudentLocations() {
-
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
-        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil { // Handle error...
-                return
-            }
-
-            do {
-                if let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? NSDictionary,
-                    results = parsedResult["results"] as? NSArray {
-                    print("Students location:\(results)")
-                    Model.sharedInstance().studentLocations = results
-                }
-            }
-                catch {
-
-            }
-            
-        }
-        task.resume()
-    
-    }
     override func viewDidLoad() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Refresh", style: .Plain, target: self, action: "refresh")
         navigationItem.leftBarButtonItem  = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logout")
         let pinButton = UIBarButtonItem(title: "Pin", style: .Plain, target: self, action: "pin")
         navigationItem.rightBarButtonItems?.append(pinButton)
 
-        getStudentLocations()
         print("In Tab Controller")
     }
 

@@ -19,7 +19,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
 
+    @IBAction func signUpAccount(sender: AnyObject) {
+        let signUpURL = "https://www.google.com/url?q=https://www.udacity.com/account/auth%23!/signin&sa=D&ust=1452592175802000&usg=AFQjCNF4P-G8QbOSHdZPa1TAOB4wnzzDVQ"
+        let app = UIApplication.sharedApplication()
+        app.openURL(NSURL(string: signUpURL)!)
+
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -60,6 +71,36 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     
     }
+    func getStudentLocations() {
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil { // Handle error...
+                return
+            }
+            
+            do {
+                if let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? NSDictionary,
+                    results = parsedResult["results"] as? NSArray {
+                        print("Students location:\(results)")
+                        Model.sharedInstance().studentLocations = results
+                        let navigationController = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController") as! UINavigationController
+                        
+                        self.presentViewController(navigationController, animated: true, completion: nil)
+                }
+            }
+            catch {
+                
+            }
+            
+        }
+        task.resume()
+        
+    }
+
     @IBAction func login(sender: AnyObject) {
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
         request.HTTPMethod = "POST"
@@ -80,11 +121,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     session = parsedResult["account"],
                     id = session["key"] as? String{
                         print(id)
-                        let navigationController = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController") as! UINavigationController
                         Model.sharedInstance().userId = id
-                        
                         self.getUserInfoFromUdacity(id)
-                        self.presentViewController(navigationController, animated: true, completion: nil)
+                        self.getStudentLocations()
                     }
                 
 
