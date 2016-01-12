@@ -9,7 +9,8 @@
 import Foundation
 
 class Model : NSObject {
-
+    var firstName : String!
+    var lastName : String!
     var userId : String!
     var studentLocations : NSArray!
     /* Student Location

@@ -30,6 +30,9 @@ class InformationPostingViewController : UIViewController {
                     let placemark = placemarks![0] as CLPlacemark
                     if let locationCoordinate = placemark.location?.coordinate {
                         informationPostingMapViewController.locationCoordinate = locationCoordinate
+
+                        informationPostingMapViewController.mapString = location
+                        
                         self.presentViewController(informationPostingMapViewController, animated: true, completion: nil)
                     }else{
                         //TODO : Alert box

@@ -33,7 +33,33 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             emailTextField.placeholder = ""
         }
     }
+    func getUserInfoFromUdacity(id : String) {
+    
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(id)")!)
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil { // Handle error...
+                return
+            }
+            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))  /* subset response data! */
+           // print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            do {
+                
+                if let parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments) as? NSDictionary,
+                    userInfo = parsedResult["user"] as? NSDictionary{
+                    Model.sharedInstance().firstName = userInfo["first_name"] as! String
+                    Model.sharedInstance().lastName = userInfo["last_name"] as! String
+                }
+            }catch {
+                print("Failed to parse json data from Udacity User Info request")
+            }
+        
+            
+        }
+        task.resume()
 
+    
+    }
     @IBAction func login(sender: AnyObject) {
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
         request.HTTPMethod = "POST"
@@ -56,12 +82,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         print(id)
                         let navigationController = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController") as! UINavigationController
                         Model.sharedInstance().userId = id
+                        
+                        self.getUserInfoFromUdacity(id)
                         self.presentViewController(navigationController, animated: true, completion: nil)
                     }
                 
 
             }catch{
-                
+                print("Failed to parse JSON data from Udacity Session Request Response")
             }
         }
         task.resume()

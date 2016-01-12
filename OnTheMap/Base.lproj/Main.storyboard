@@ -252,6 +252,7 @@
                     </view>
                     <connections>
                         <outlet property="mapView" destination="VKm-Zs-9jQ" id="Ss4-rB-7Mh"/>
+                        <outlet property="urlTextField" destination="x9X-nX-GH3" id="5wX-X1-w2h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5sE-aa-I2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
