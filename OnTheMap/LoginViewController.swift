@@ -71,35 +71,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     
     }
-    func getStudentLocations() {
-        
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://api.parse.com/1/classes/StudentLocation")!)
-        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
-        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil { // Handle error...
-                return
-            }
-            
-            do {
-                if let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? NSDictionary,
-                    results = parsedResult["results"] as? NSArray {
-                        print("Students location:\(results)")
-                        Model.sharedInstance().studentLocations = results
-                        let navigationController = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController") as! UINavigationController
-                        
-                        self.presentViewController(navigationController, animated: true, completion: nil)
-                }
-            }
-            catch {
-                
-            }
-            
-        }
-        task.resume()
-        
-    }
+
 
     @IBAction func login(sender: AnyObject) {
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
@@ -123,7 +95,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         print(id)
                         Model.sharedInstance().userId = id
                         self.getUserInfoFromUdacity(id)
-                        self.getStudentLocations()
+                        Model.sharedInstance().getStudentLocations(self)
                     }
                 
 

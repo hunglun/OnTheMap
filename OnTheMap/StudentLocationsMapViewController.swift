@@ -13,9 +13,42 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
 
     @IBOutlet weak var mapView: MKMapView!
     
+    func pin(){
+        print("In Pin")
+        let informationPostingViewController = self.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as UIViewController!
+        presentViewController(informationPostingViewController, animated: true, completion: nil)
+        
+    }
+    
+    func refresh() {
+
+        Model.sharedInstance().getStudentLocations(self)
+       
+    }
+    
+    func logout(){
+        //TODO: logout
+    }
+    
+    
+    func populateNavigationBar() {
+
+        let pinButton = UIBarButtonItem(image: UIImage(named: "pin"), style: .Plain, target: self, action: "pin")
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: "refresh")
+        navigationItem.leftBarButtonItem  = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logout")
+        navigationItem.rightBarButtonItems?.append(pinButton)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        populateNavigationBar()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
 
+        super.viewWillAppear(animated)
+        self.mapView.removeAnnotations(self.mapView.annotations)
         let locations = Model.sharedInstance().studentLocations
         
         // We will create an MKPointAnnotation for each dictionary in "locations". The

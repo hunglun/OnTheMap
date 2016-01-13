@@ -56,7 +56,7 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
                 return
             }
             print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController")
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
             self.presentViewController(controller, animated: false, completion: nil)
             
         }
@@ -111,7 +111,7 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
             }
             //TODO: handle response code 142
             print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("NavigationController")
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
             self.presentViewController(controller, animated: false, completion: nil)
             
         }
