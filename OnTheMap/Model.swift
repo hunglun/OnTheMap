@@ -12,7 +12,7 @@ class Model : NSObject {
     var firstName : String!
     var lastName : String!
     var userId : String!
-    var studentLocations : NSArray!
+    var studentLocations : NSArray?
     /* Student Location
     {
     createdAt = "2015-12-15T08:35:29.521Z";
@@ -46,14 +46,8 @@ class Model : NSObject {
                     results = parsedResult["results"] as? NSArray {
                         print("Students location:\(results)")
                         self.studentLocations = results
-                        let navigationController = controller.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
-                        if(controller.title == "Login View Controller"){
-                            controller.presentViewController(navigationController, animated: true, completion: nil)
-                        }else{
-                            dispatch_async(dispatch_get_main_queue()) {
-                                controller.viewWillAppear(true)
-                            }
-                        
+                        dispatch_async(dispatch_get_main_queue()) {
+                            controller.viewWillAppear(true)
                         }
                         
                 }

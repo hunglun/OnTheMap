@@ -26,26 +26,32 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
        
     }
     
-    func logout(){
-        //TODO: logout
+    func logout () {
+        dismissViewControllerAnimated(true, completion: nil)
     }
+
     
     
     func populateNavigationBar() {
 
         let pinButton = UIBarButtonItem(image: UIImage(named: "pin"), style: .Plain, target: self, action: "pin")
-        
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: "refresh")
         navigationItem.leftBarButtonItem  = UIBarButtonItem(title: "Logout", style: .Plain, target: self, action: "logout")
         navigationItem.rightBarButtonItems?.append(pinButton)
+        
+        navigationItem.title = "On The Map"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         populateNavigationBar()
+        Model.sharedInstance().getStudentLocations(self)
+
     }
     
     override func viewWillAppear(animated: Bool) {
+
 
         super.viewWillAppear(animated)
         self.mapView.removeAnnotations(self.mapView.annotations)
@@ -59,7 +65,7 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
         
-        for dictionary in locations {
+        for dictionary in locations ?? [] {
             
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.

@@ -10,9 +10,11 @@ import UIKit
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
+    @IBOutlet var waitingAnimation: UIActivityIndicatorView!
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var emailTextField: UITextField!
     override func viewDidLoad() {
+        waitingAnimation.hidden = true
         passwordTextField.delegate = self
         passwordTextField.secureTextEntry = true
         emailTextField.delegate = self
@@ -37,13 +39,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     func textFieldDidBeginEditing(textField: UITextField)  {
 
-        if (textField == passwordTextField){
-            passwordTextField.placeholder = ""
-        }
-        if (textField == emailTextField){
-            emailTextField.placeholder = ""
-        }
     }
+
     func getUserInfoFromUdacity(id : String) {
     
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(id)")!)
@@ -74,6 +71,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
 
     @IBAction func login(sender: AnyObject) {
+        print(" Logging in..")
+        waitingAnimation.hidden = false
+        waitingAnimation.startAnimating()
         let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/session")!)
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -84,6 +84,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if error != nil { // Handle error…
                 print(error)
+                
+                let alert = UIAlertController(title: "", message: "Invalid Password or Email", preferredStyle: .Alert)
+                let dismissAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: {(alert: UIAlertAction!) in self.dismissViewControllerAnimated(true, completion: nil)
+                })
+                alert.addAction(dismissAction)
+                self.presentViewController(alert, animated: true, completion: nil)
                 return
             }
             let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
@@ -95,17 +101,41 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         print(id)
                         Model.sharedInstance().userId = id
                         self.getUserInfoFromUdacity(id)
-                        Model.sharedInstance().getStudentLocations(self)
+                        let tabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
+                        self.presentViewController(tabBarController, animated: true, completion: nil)
                     }
+                else{
+                    
+                    let alert = UIAlertController(title: "", message: "Bad Connection", preferredStyle: .Alert)
+                    let dismissAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: {(alert: UIAlertAction!) in self.dismissViewControllerAnimated(true, completion: nil)
+                    })
+                    alert.addAction(dismissAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+
+                
+                }
                 
 
             }catch{
                 print("Failed to parse JSON data from Udacity Session Request Response")
             }
+            
+            dispatch_async(dispatch_get_main_queue()) {
+                self.waitingAnimation.stopAnimating()
+            }
         }
         task.resume()
         
     }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+        
+        return true
+    }
+    
+
 
 }
 

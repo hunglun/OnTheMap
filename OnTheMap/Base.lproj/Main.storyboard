@@ -21,12 +21,12 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="hunglun.o@gmail.com" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="luB-mi-nBs">
                                 <rect key="frame" x="20" y="235" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="123qweasd" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8oR-BJ-qWS">
                                 <rect key="frame" x="20" y="268" width="560" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CnR-MK-1Qk">
                                 <rect key="frame" x="20" y="301" width="560" height="30"/>
@@ -59,9 +59,13 @@
                                     <constraint firstAttribute="width" constant="240" id="yfK-3F-qSq"/>
                                 </constraints>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="TQa-d7-Wae">
+                                <rect key="frame" x="290" y="334" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="TQa-d7-Wae" firstAttribute="centerX" secondItem="lmP-w7-JaO" secondAttribute="centerX" id="2cj-iJ-vSQ"/>
                             <constraint firstItem="CnR-MK-1Qk" firstAttribute="leading" secondItem="lmP-w7-JaO" secondAttribute="leading" id="2z4-hJ-P9u"/>
                             <constraint firstItem="lmP-w7-JaO" firstAttribute="trailing" secondItem="9hX-Sw-Bco" secondAttribute="trailing" id="GEH-st-rpL"/>
                             <constraint firstItem="NEs-iP-Ef8" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="MjP-yq-W7v"/>
@@ -79,6 +83,7 @@
                             <constraint firstItem="lmP-w7-JaO" firstAttribute="top" secondItem="CnR-MK-1Qk" secondAttribute="bottom" constant="19" id="kxs-Po-xXD"/>
                             <constraint firstItem="8oR-BJ-qWS" firstAttribute="trailing" secondItem="luB-mi-nBs" secondAttribute="trailing" id="nbQ-Bu-OvN"/>
                             <constraint firstItem="CnR-MK-1Qk" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="oGf-xv-OfB"/>
+                            <constraint firstItem="TQa-d7-Wae" firstAttribute="top" secondItem="CnR-MK-1Qk" secondAttribute="bottom" constant="3" id="q8m-Eg-69a"/>
                             <constraint firstItem="luB-mi-nBs" firstAttribute="top" secondItem="dYT-e8-5OZ" secondAttribute="bottom" constant="36" id="stI-pG-rAM"/>
                             <constraint firstItem="CnR-MK-1Qk" firstAttribute="leading" secondItem="8oR-BJ-qWS" secondAttribute="leading" id="v97-EA-zad"/>
                         </constraints>
@@ -86,6 +91,7 @@
                     <connections>
                         <outlet property="emailTextField" destination="luB-mi-nBs" id="Uqq-6h-RWr"/>
                         <outlet property="passwordTextField" destination="8oR-BJ-qWS" id="hEX-E2-dYf"/>
+                        <outlet property="waitingAnimation" destination="TQa-d7-Wae" id="9yR-cq-6wC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -101,12 +107,28 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TableViewCell" id="PWQ-Ff-VsS">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TableViewCell" textLabel="W0R-gg-bGp" detailTextLabel="XiN-Wf-kmp" style="IBUITableViewCellStyleSubtitle" id="PWQ-Ff-VsS">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PWQ-Ff-VsS" id="s2E-2g-heu">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="W0R-gg-bGp">
+                                            <rect key="frame" x="15" y="5" width="32" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XiN-Wf-kmp">
+                                            <rect key="frame" x="15" y="25" width="41" height="14"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
