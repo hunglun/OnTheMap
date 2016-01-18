@@ -28,7 +28,18 @@ class Model : NSObject {
     }
 
     */
-    
+    let signUpURL = "https://www.google.com/url?q=https://www.udacity.com/account/auth%23!/signin&sa=D&ust=1452592175802000&usg=AFQjCNF4P-G8QbOSHdZPa1TAOB4wnzzDVQ"
+
+    func warningAlertView(parent : UIViewController, messageString : String) -> UIAlertController{
+        let alert = UIAlertController(title: "", message: messageString, preferredStyle: .Alert)
+        let dismissAction = UIAlertAction(title: "Dismiss",
+                                          style: .Cancel,
+                                        handler: {(alert: UIAlertAction!) in
+                                                  parent.dismissViewControllerAnimated(true, completion: nil)
+                                            })
+        alert.addAction(dismissAction)
+        return alert
+    }
     // MARK: Shared Instance
     func getStudentLocations(controller : UIViewController) {
         
