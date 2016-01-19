@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SystemConfiguration
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
@@ -14,11 +15,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var emailTextField: UITextField!
     override func viewDidLoad() {
-        waitingAnimation.hidden = true
-        waitingAnimation.hidesWhenStopped = true
-        passwordTextField.delegate = self
-        passwordTextField.secureTextEntry = true
-        emailTextField.delegate = self
+        self.configureUI()
         super.viewDidLoad()
 
     }
@@ -102,23 +99,53 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
         }
     }
+    func isNetworkAvailable() -> Bool    {
+        var flags:SCNetworkReachabilityFlags = .TransientConnection
+        let  address: SCNetworkReachabilityRef
+        address = SCNetworkReachabilityCreateWithName( nil,"www.apple.com" )!
+        let success = SCNetworkReachabilityGetFlags(address, &flags)
+    
+        let canReach = success && ((flags.rawValue & SCNetworkReachabilityFlags.Reachable.rawValue) != 0)
 
+        return canReach;
+    }
 
     @IBAction func login(sender: AnyObject) {
-        waitingAnimation.hidden = false
-        waitingAnimation.startAnimating()
-        Model.sharedInstance().authenticate(emailTextField!.text!,password: passwordTextField!.text!,loginSuccessHandler: loginSuccessHandler)
+        
+        if let password = self.passwordTextField.text where password == "" {
+
+            let alert = Model.sharedInstance().warningAlertView(self,messageString: "Empty password")
+            self.presentViewController(alert, animated: true, completion: nil)
+
+        } else if let email = self.emailTextField.text where email == ""  {
+
+            let alert = Model.sharedInstance().warningAlertView(self,messageString: "Empty email")
+            self.presentViewController(alert, animated: true, completion: nil)
+            
+        } else if isNetworkAvailable() == false {
+            let alert = Model.sharedInstance().warningAlertView(self,messageString: "Network not available")
+            self.presentViewController(alert, animated: true, completion: nil)
+
+        } else {
+            waitingAnimation.hidden = false
+            waitingAnimation.startAnimating()
+            Model.sharedInstance().authenticate(emailTextField!.text!,password: passwordTextField!.text!,loginSuccessHandler: loginSuccessHandler)
+        }
     }
     
-    //TODO: configure the UI
+
     func configureUI(){
-    
+        waitingAnimation.hidden = true
+        waitingAnimation.hidesWhenStopped = true
+        passwordTextField.delegate = self
+        passwordTextField.secureTextEntry = true
+        emailTextField.delegate = self
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
-        
+        self.login(self)
         return true
     }
     

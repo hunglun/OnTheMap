@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 extension Model {
     func authenticate(email: String, password: String,
         loginSuccessHandler: (success: Bool, errorString: String?) -> Void){
