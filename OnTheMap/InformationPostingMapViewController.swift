@@ -172,6 +172,7 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
+        //TODO: dismiss keyboard.
         
         return true
     }

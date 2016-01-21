@@ -57,7 +57,7 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
         self.mapView.removeAnnotations(self.mapView.annotations)
         let locations = Model.sharedInstance().studentLocations
         
-        // We will create an MKPointAnnotation for each dictionary in "locations". The
+        // We will create an MKPointAnnotation for each student in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.
         var annotations = [MKPointAnnotation]()
         
@@ -65,19 +65,19 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
         
-        for dictionary in locations ?? [] {
+        for student in locations ?? [] {
             
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.
-            let lat = CLLocationDegrees(dictionary["latitude"] as! Double)
-            let long = CLLocationDegrees(dictionary["longitude"] as! Double)
+            let lat = CLLocationDegrees(student.latitude)
+            let long = CLLocationDegrees(student.longitude )
             
             // The lat and long are used to create a CLLocationCoordinates2D instance.
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             
-            let first = dictionary["firstName"] as! String
-            let last = dictionary["lastName"] as! String
-            let mediaURL = dictionary["mediaURL"] as! String
+            let first = student.firstName
+            let last = student.lastName 
+            let mediaURL = student.mediaURL 
             
             // Here we create the annotation and set its coordiate, title, and subtitle properties
             let annotation = MKPointAnnotation()

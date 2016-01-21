@@ -35,9 +35,12 @@
                                     <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aCV-NS-YHT"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hX-Sw-Bco">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9hX-Sw-Bco">
                                 <rect key="frame" x="20" y="550" width="560" height="30"/>
                                 <state key="normal" title="Sign in with Facebook"/>
+                                <connections>
+                                    <action selector="signInWithFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VSu-Fq-fGT"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lmP-w7-JaO">
                                 <rect key="frame" x="20" y="350" width="560" height="30"/>
@@ -222,6 +225,10 @@
         <scene sceneID="L91-m6-D51">
             <objects>
                 <viewController storyboardIdentifier="InformationPostingViewController" title="Information Posting View Controller" id="ahV-Xk-Nwb" customClass="InformationPostingViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6Af-Eg-ML6"/>
+                        <viewControllerLayoutGuide type="bottom" id="qSm-K2-pJh"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Wkf-g0-ssh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -59,22 +59,18 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
         
         /* Set cell defaults */
-        if let locations = Model.sharedInstance().studentLocations ,
-            studentProfile = locations[indexPath.row] as? NSDictionary,
-                firstName = studentProfile["firstName"] as? String,
-                lastName = studentProfile["lastName"] as? String,
-                mediaURL = studentProfile["mediaURL"] as? String{
-            
-            cell.textLabel!.text = firstName + " " + lastName
-            cell.detailTextLabel!.text = mediaURL
+        if let locations = Model.sharedInstance().studentLocations {
+            let studentProfile = locations[indexPath.row]
+            cell.textLabel!.text = studentProfile.firstName + " " + studentProfile.lastName
+            cell.detailTextLabel!.text = studentProfile.mediaURL
             cell.imageView!.image = UIImage(named: "pin")
         }
         return cell
 
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let locations = Model.sharedInstance().studentLocations ,
-            mediaURL = locations[indexPath.row]["mediaURL"] as? String {
+        if let locations = Model.sharedInstance().studentLocations {
+            let mediaURL = locations[indexPath.row].mediaURL
             let app = UIApplication.sharedApplication()
             app.openURL(NSURL(string: mediaURL)!)
             print(mediaURL)
