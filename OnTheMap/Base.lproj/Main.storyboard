@@ -262,6 +262,9 @@
                                     <action selector="findOnTheMapButton:" destination="ahV-Xk-Nwb" eventType="touchUpInside" id="ZMW-bq-Z1u"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Y5j-w0-zAq">
+                                <rect key="frame" x="290" y="359" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -270,10 +273,13 @@
                             <constraint firstItem="qAY-cg-L5Z" firstAttribute="centerX" secondItem="9de-7v-OGL" secondAttribute="centerX" id="ZcJ-6H-jqw"/>
                             <constraint firstItem="9de-7v-OGL" firstAttribute="centerX" secondItem="Wkf-g0-ssh" secondAttribute="centerX" id="ebM-Q4-X9o"/>
                             <constraint firstItem="sCS-6Q-32D" firstAttribute="top" secondItem="9de-7v-OGL" secondAttribute="bottom" constant="75" id="epe-Ax-KGW"/>
+                            <constraint firstItem="sCS-6Q-32D" firstAttribute="top" secondItem="Y5j-w0-zAq" secondAttribute="bottom" constant="25" id="wEJ-vJ-yZo"/>
+                            <constraint firstItem="Y5j-w0-zAq" firstAttribute="centerX" secondItem="sCS-6Q-32D" secondAttribute="centerX" id="zWm-Jo-SLV"/>
                             <constraint firstItem="9de-7v-OGL" firstAttribute="top" secondItem="qAY-cg-L5Z" secondAttribute="bottom" constant="63" id="zbR-bm-rGB"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="geocodingActivity" destination="Y5j-w0-zAq" id="Esl-eP-aJH"/>
                         <outlet property="locationTextField" destination="9de-7v-OGL" id="yVp-bI-Ca9"/>
                     </connections>
                 </viewController>

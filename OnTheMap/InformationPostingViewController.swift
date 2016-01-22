@@ -16,6 +16,8 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         locationTextField.delegate = self
+        geocodingActivity.hidesWhenStopped = true
+        geocodingActivity.hidden = true
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -25,11 +27,14 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
         return true
     }
 
+    @IBOutlet var geocodingActivity: UIActivityIndicatorView!
     @IBAction func findOnTheMapButton(sender: AnyObject) {
         if let location = locationTextField.text as String? ,
             let informationPostingMapViewController = self.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingMapViewController") as? InformationPostingMapViewController {
             
             let geocoder = CLGeocoder()
+            geocodingActivity.hidden = false
+            geocodingActivity.startAnimating()
             geocoder.geocodeAddressString(location){ (placemarks: [CLPlacemark]?,error : NSError?) in
                 if let _ = error {
 
@@ -57,6 +62,7 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
                     }
                 
                 }
+                self.geocodingActivity.stopAnimating()
             }
         }
 
