@@ -9,19 +9,30 @@
 import UIKit
 import CoreLocation
 
-class InformationPostingViewController : UIViewController {
+class InformationPostingViewController : UIViewController, UITextFieldDelegate {
 
 
     @IBOutlet var locationTextField: UITextField!
     
+    override func viewDidLoad() {
+        locationTextField.delegate = self
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        textField.resignFirstResponder()
+
+        return true
+    }
+
     @IBAction func findOnTheMapButton(sender: AnyObject) {
         if let location = locationTextField.text as String? ,
             let informationPostingMapViewController = self.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingMapViewController") as? InformationPostingMapViewController {
             
             let geocoder = CLGeocoder()
             geocoder.geocodeAddressString(location){ (placemarks: [CLPlacemark]?,error : NSError?) in
-                if let error = error {
-                    print(error)
+                if let _ = error {
+
                     let alert = Model.sharedInstance().warningAlertView(self,messageString: "Geocoding fails")
                     dispatch_async(dispatch_get_main_queue()) {
                         self.presentViewController(alert, animated: true, completion: nil)
