@@ -22,8 +22,10 @@ class InformationPostingViewController : UIViewController {
             geocoder.geocodeAddressString(location){ (placemarks: [CLPlacemark]?,error : NSError?) in
                 if let error = error {
                     print(error)
-                    //TODO: Alert Controller to warn about geocode failure
-                    print("Present Alert Box")
+                    let alert = Model.sharedInstance().warningAlertView(self,messageString: "Geocoding fails")
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.presentViewController(alert, animated: true, completion: nil)
+                    }
                   
                 }else {
                     
@@ -35,8 +37,11 @@ class InformationPostingViewController : UIViewController {
                         
                         self.presentViewController(informationPostingMapViewController, animated: true, completion: nil)
                     }else{
-                        //TODO : Alert box
-                        print("location coordinate is nil")
+                        let alert = Model.sharedInstance().warningAlertView(self,messageString: "Location coordinate is nil")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.presentViewController(alert, animated: true, completion: nil)
+                        }
+                        
                     
                     }
                 

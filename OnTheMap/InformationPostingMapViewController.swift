@@ -52,12 +52,16 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
         request.HTTPBody = "{\"uniqueKey\": \"\(userid)\", \"firstName\": \"\(firstName)\", \"lastName\": \"\(lastName)\",\"mapString\": \"\(self.mapString)\", \"mediaURL\": \"\(mediaURL)\",\"latitude\": \(self.mapView.centerCoordinate.latitude), \"longitude\": \(self.mapView.centerCoordinate.longitude)}".dataUsingEncoding(NSUTF8StringEncoding)
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil { // Handle error…
-                return
+            if error != nil { 
+                let alert = Model.sharedInstance().warningAlertView(self,messageString: "Updating user information fails")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+            }else{
+                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
+                self.presentViewController(controller, animated: false, completion: nil)
             }
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
-            self.presentViewController(controller, animated: false, completion: nil)
             
         }
         task.resume()
@@ -72,7 +76,14 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil { /* Handle error */ return }
+            if error != nil { /* Handle error */
+                let alert = Model.sharedInstance().warningAlertView(self,messageString: "Quering student id \(userId) fails.")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+    
+                return
+            }
             print(NSString(data: data!, encoding: NSUTF8StringEncoding))
             do {
                 if let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? NSDictionary,
@@ -84,7 +95,13 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
                     self.post()
                 }
             }catch{
-                    print("Faild to parse JSON response from query")
+
+                let alert = Model.sharedInstance().warningAlertView(self,messageString: "Fail to parse JSON response from query")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+                
+
             }
             
         }
@@ -107,12 +124,17 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithRequest(request) { data, response, error in
             if error != nil { // Handle error…
-                return
+                let alert = Model.sharedInstance().warningAlertView(self,messageString: "Posting information fails")
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.presentViewController(alert, animated: true, completion: nil)
+                }
+
+            }else{
+                //TODO: handle response code 142
+                print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+                let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
+                self.presentViewController(controller, animated: false, completion: nil)
             }
-            //TODO: handle response code 142
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
-            self.presentViewController(controller, animated: false, completion: nil)
             
         }
         task.resume()
