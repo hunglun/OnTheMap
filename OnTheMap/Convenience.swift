@@ -10,7 +10,46 @@ import UIKit
 import SystemConfiguration
 
 extension Model {
-
+    func httpQueryStudent(controller : UIViewController, userId: String, errorString: String, completeHandler : (userExists : Bool, objectId : String?)-> Void){
+        let urlString = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(userId)%22%7D"
+        let url = NSURL(string: urlString)
+        let request = NSMutableURLRequest(URL: url!)
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil { /* Handle error */
+                let alert = Model.sharedInstance().warningAlertView(controller,messageString: errorString)
+                dispatch_async(dispatch_get_main_queue()) {
+                    controller.presentViewController(alert, animated: true, completion: nil)
+                }
+                return
+            }
+            
+            do {
+                if let parsedResult = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? NSDictionary,
+                    objectId = parsedResult["results"]?[0]?["objectId"] as? String{
+                        print("Updating...")
+                        //self.update(objectId)
+                        completeHandler(userExists: true, objectId: objectId)
+                }else{
+                    print("Posting...")
+                    completeHandler(userExists: false, objectId: nil)
+                }
+            }catch{
+                
+                let alert = Model.sharedInstance().warningAlertView(controller,messageString: "Fail to parse JSON response from query")
+                dispatch_async(dispatch_get_main_queue()) {
+                    controller.presentViewController(alert, animated: true, completion: nil)
+                }
+            }
+            
+        }
+        task.resume()
+        
+        
+    }
+    
     func httpPutStudentLocation(controller : UIViewController,objectId : String,requestBody: String, errorString: String,
                                 submitComplete : () -> Void){
         
@@ -135,6 +174,7 @@ extension Model {
             }
             let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5)) /* subset response data! */
             print(NSString(data: newData, encoding: NSUTF8StringEncoding))
+            
             controller.dismissViewControllerAnimated(true, completion: nil)
         }
         task.resume()
