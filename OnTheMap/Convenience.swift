@@ -10,6 +10,38 @@ import UIKit
 import SystemConfiguration
 
 extension Model {
+    
+    
+    func httpGetUdacityUserInfo(userId : String , errorHandler: (errroString : String) -> Void,
+        getUserInfoComplete : () -> Void ){
+            let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(userId)")!)
+            let session = NSURLSession.sharedSession()
+            let task = session.dataTaskWithRequest(request) { data, response, error in
+                if error != nil { // Handle error...
+                    errorHandler(errroString: "Bad Connection")
+                    return
+                }
+                let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))  /* subset response data! */
+                do {
+                    if let parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments) as? NSDictionary,
+                        userInfo = parsedResult["user"] as? NSDictionary,
+                        firstName = userInfo["first_name"] as? String,
+                        lastName = userInfo["last_name"] as? String{
+                            Model.sharedInstance().firstName = firstName
+                            Model.sharedInstance().lastName = lastName
+                            getUserInfoComplete()
+                            
+                    }else{
+                        errorHandler(errroString: "Invalid JSON Object")
+                    }
+                }catch {
+                    errorHandler(errroString: "Error parsing JSON object")
+                }
+            }
+            task.resume()
+    }
+
+    
     func httpQueryStudent(controller : UIViewController, userId: String, errorString: String, completeHandler : (userExists : Bool, objectId : String?)-> Void){
         let urlString = "https://api.parse.com/1/classes/StudentLocation?where=%7B%22uniqueKey%22%3A%22\(userId)%22%7D"
         let url = NSURL(string: urlString)

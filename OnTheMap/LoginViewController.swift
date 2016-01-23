@@ -29,53 +29,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     }
 
-    //TODO: move this function to a client model? Keep login view controller as clean as possible.
-    func getUserInfoFromUdacity(id : String) {
-    
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://www.udacity.com/api/users/\(id)")!)
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
-            if error != nil { // Handle error...
-                let alert = Model.sharedInstance().warningAlertView(self, messageString: "Bad Connection")
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.presentViewController(alert, animated: true, completion: nil)
-                })
-                return
-            }
-            
-            let newData = data!.subdataWithRange(NSMakeRange(5, data!.length - 5))  /* subset response data! */
-            do {
-                if let parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments) as? NSDictionary,
-                    userInfo = parsedResult["user"] as? NSDictionary{
+    func errorHandler(errorString : String) {
+        let alert = Model.sharedInstance().warningAlertView(self, messageString: "Bad Connection")
+        dispatch_async(dispatch_get_main_queue(), {
 
-                    Model.sharedInstance().firstName = userInfo["first_name"] as! String
-                    Model.sharedInstance().lastName = userInfo["last_name"] as! String
-                    dispatch_async(dispatch_get_main_queue(), {
-                        let tabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
-                        self.presentViewController(tabBarController, animated: true, completion: nil)
-                        self.waitingAnimation.stopAnimating()
-                    })
-                }else{
-                    let alert = Model.sharedInstance().warningAlertView(self, messageString: "Invalid JSON Object")
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.presentViewController(alert, animated: true, completion: nil)
-                    })
-                }
-            }catch {
-                let alert = Model.sharedInstance().warningAlertView(self, messageString: "Error parsing JSON Object")
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.presentViewController(alert, animated: true, completion: nil)
-                })
+            self.waitingAnimation.stopAnimating()
 
-                print("Failed to parse json data from Udacity User Info request")
-            }
-        
-            
-        }
-        task.resume()
-
-    
+            self.presentViewController(alert, animated: true, completion: nil)
+        })
     }
+
+ 
     
     @IBAction func signInWithFacebook(sender: UIButton) {
        //TODO: 365362206864879
@@ -84,21 +48,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func loginSuccessHandler(success: Bool, errString : String?) {
         if success {
-            self.getUserInfoFromUdacity(Model.sharedInstance().userId)
-        }else{
-            let alert = UIAlertController(title: "", message: errString, preferredStyle: .Alert)
-            let dismissAction = UIAlertAction(title: "Dismiss", style: .Cancel, handler: {(alert: UIAlertAction!) in self.dismissViewControllerAnimated(true, completion: nil)})
-            alert.addAction(dismissAction)
-            if let _ = errString {
-                print(errString)
-                alert.message = errString
-            } else{
-                alert.message = "Unknown Error"
+            Model.sharedInstance().httpGetUdacityUserInfo(Model.sharedInstance().userId, errorHandler:  errorHandler) {
+                dispatch_async(dispatch_get_main_queue(), {
+
+                    self.waitingAnimation.stopAnimating()
+
+                    let tabBarController = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
+
+                    self.presentViewController(tabBarController, animated: true, completion: nil)
+                })
             }
-            dispatch_async(dispatch_get_main_queue(), {                
-                self.presentViewController(alert, animated: true, completion: nil)
-                self.waitingAnimation.stopAnimating()
-            })
+
+        }else{
+
+            self.errorHandler(errString ?? "Unknown error")
 
         }
     }
