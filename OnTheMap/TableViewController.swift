@@ -29,7 +29,8 @@ class TableViewController: UITableViewController {
     }
     
     func logout () {
-        dismissViewControllerAnimated(true, completion: nil)
+        Model.sharedInstance().logout(self)
+        //dismissViewControllerAnimated(true, completion: nil)
     }
     
     func populateNavigationBar() {

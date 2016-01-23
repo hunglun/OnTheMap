@@ -27,7 +27,8 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
     }
     
     func logout () {
-        dismissViewControllerAnimated(true, completion: nil)
+        Model.sharedInstance().logout(self)
+//        dismissViewControllerAnimated(true, completion: nil)
     }
 
     
