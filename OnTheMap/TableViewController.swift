@@ -10,22 +10,27 @@ import UIKit
 
 class TableViewController: UITableViewController {
     func pin(){
-        print("In Pin")
+
         let informationPostingViewController = self.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as UIViewController!
         presentViewController(informationPostingViewController, animated: true, completion: nil)
-        
+
     }
     
     func refresh() {
-        Model.sharedInstance().getStudentLocations(self)
-
+        Model.sharedInstance().getStudentLocations(self){
+            dispatch_async(dispatch_get_main_queue()) {
+                self.viewWillAppear(true)
+            }
+        }
     }
     
     
     
     override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillAppear(animated)        
+
         self.tableView.reloadData()
+        
     }
     
     func logout () {
@@ -49,9 +54,15 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         populateNavigationBar()
-        Model.sharedInstance().getStudentLocations(self)
+        Model.sharedInstance().getStudentLocations(self){
+            dispatch_async(dispatch_get_main_queue()) {
+                self.viewWillAppear(true)
+            }
+        }
 
     }
+    
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         /* Get cell type */

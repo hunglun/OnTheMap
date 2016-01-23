@@ -17,12 +17,16 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
 
         let informationPostingViewController = self.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as UIViewController!
         presentViewController(informationPostingViewController, animated: true, completion: nil)
-        
+
     }
     
     func refresh() {
 
-        Model.sharedInstance().getStudentLocations(self)
+        Model.sharedInstance().getStudentLocations(self){
+            dispatch_async(dispatch_get_main_queue()) {
+                self.viewWillAppear(true)
+            }
+        }
        
     }
     
@@ -47,7 +51,11 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         populateNavigationBar()
-        Model.sharedInstance().getStudentLocations(self)
+        Model.sharedInstance().getStudentLocations(self){
+            dispatch_async(dispatch_get_main_queue()) {
+                self.viewWillAppear(true)
+            }
+        }
         
 
     }
@@ -104,6 +112,8 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
         
         // When the array is complete, we add the annotations to the map.
         self.mapView.addAnnotations(annotations)
+        
+
         
     }
     

@@ -12,7 +12,6 @@ class Model : NSObject {
     var firstName : String!
     var lastName : String!
     var userId : String!
-    //var studentLocations : NSArray?
     var studentLocations : [StudentLocation]?
     struct StudentLocation {
         let createdAt : String // "2015-12-15T08:35:29.521Z";
@@ -41,6 +40,7 @@ class Model : NSObject {
             self.updatedAt = updatedAt
         }
     }
+    
 
     let signUpURL = "https://www.google.com/url?q=https://www.udacity.com/account/auth%23!/signin&sa=D&ust=1452592175802000&usg=AFQjCNF4P-G8QbOSHdZPa1TAOB4wnzzDVQ"
 
@@ -50,10 +50,11 @@ class Model : NSObject {
                                           style: .Cancel,
                                         handler: nil)
         alert.addAction(dismissAction)
+        
         return alert
     }
     // MARK: Shared Instance
-    func getStudentLocations(controller : UIViewController) {
+    func getStudentLocations(controller : UIViewController, completeHandler : (()->Void)?) {
         let requestString = "https://api.parse.com/1/classes/StudentLocation?limit=100&order=-updatedAt"
         let request = NSMutableURLRequest(URL: NSURL(string: requestString)!)
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
@@ -88,11 +89,9 @@ class Model : NSObject {
 
                             self.studentLocations!.append(student)
                         }
-
-                        dispatch_async(dispatch_get_main_queue()) {
-                            controller.viewWillAppear(true)
+                        if let completeHandler = completeHandler {
+                            completeHandler()
                         }
-                        
                 }
             }
             catch {

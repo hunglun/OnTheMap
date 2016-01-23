@@ -13,7 +13,6 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
 
 
     @IBOutlet var locationTextField: UITextField!
-    
     override func viewDidLoad() {
         locationTextField.delegate = self
         geocodingActivity.hidesWhenStopped = true
@@ -52,9 +51,11 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
                         informationPostingMapViewController.mapString = location
                         
                         self.presentViewController(informationPostingMapViewController, animated: true, completion: nil)
+                        
                     }else{
                         let alert = Model.sharedInstance().warningAlertView(self,messageString: "Location coordinate is nil")
                         dispatch_async(dispatch_get_main_queue()) {
+
                             self.presentViewController(alert, animated: true, completion: nil)
                         }
                         

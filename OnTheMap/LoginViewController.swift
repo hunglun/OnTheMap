@@ -30,7 +30,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 
     func errorHandler(errorString : String) {
-        let alert = Model.sharedInstance().warningAlertView(self, messageString: "Bad Connection")
+        let alert = Model.sharedInstance().warningAlertView(self, messageString: errorString)
         dispatch_async(dispatch_get_main_queue(), {
 
             self.waitingAnimation.stopAnimating()

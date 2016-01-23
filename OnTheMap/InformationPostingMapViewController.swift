@@ -47,8 +47,15 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
         
         Model.sharedInstance().httpPutStudentLocation(self,objectId : objectId,requestBody: requestBody, errorString: "Updating information fails"){
             dispatch_async(dispatch_get_main_queue()) {
-                let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
-                self.presentViewController(controller, animated: false, completion: nil)
+
+                Model.sharedInstance().getStudentLocations(self){
+                    dispatch_async(dispatch_get_main_queue()){
+
+                        self.presentingViewController?.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+
+                    }
+                }
+
             }
         }
     
@@ -69,8 +76,13 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
         
         Model.sharedInstance().httpPostStudentLocation(self ,requestBody: requestBody, errorString: "Posting information fails"){
             dispatch_async(dispatch_get_main_queue()) {
-                let controller = self.storyboard!.instantiateViewControllerWithIdentifier("TabBarController")
-                self.presentViewController(controller, animated: false, completion: nil)
+                Model.sharedInstance().getStudentLocations(self){
+                    dispatch_async(dispatch_get_main_queue()){
+                        self.presentingViewController?.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                }
+
+
             }
         }
     
@@ -78,14 +90,20 @@ class InformationPostingMapViewController : UIViewController,MKMapViewDelegate,U
     @IBAction func submit(sender: AnyObject) {
         let userId = Model.sharedInstance().userId
 
-        Model.sharedInstance().httpQueryStudent(self, userId: userId, errorString:"Quering student id \(userId) fails."){
-            (userExists : Bool, objectId : String?) in
-            if userExists {
-                self.update(objectId!)
-            }else{
-                self.post()
+        if let url = urlTextField.text where url != "" {
+            Model.sharedInstance().httpQueryStudent(self, userId: userId, errorString:"Quering student id \(userId) fails."){
+                (userExists : Bool, objectId : String?) in
+                if userExists {
+                    self.update(objectId!)
+                }else{
+                    self.post()
+                }
             }
+        }else{
+            let alert = Model.sharedInstance().warningAlertView(self, messageString: "Please do not leave URL textfield empty")
+            self.presentViewController(alert, animated: true, completion: nil)
         }
+
 
     }
     @IBAction func cancel(sender: AnyObject) {

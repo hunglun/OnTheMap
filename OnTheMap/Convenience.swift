@@ -180,7 +180,7 @@ extension Model {
                     
                 }catch{
                     loginSuccessHandler(success: false,errorString: "Error parsing JSON object")
-                    print("Failed to parse JSON data from Udacity Session Request Response")
+
                 }
             }
             task.resume()
