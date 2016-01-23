@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SystemConfiguration
+
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
@@ -102,16 +102,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
         }
     }
-    func isNetworkAvailable() -> Bool    {
-        var flags:SCNetworkReachabilityFlags = .TransientConnection
-        let  address: SCNetworkReachabilityRef
-        address = SCNetworkReachabilityCreateWithName( nil,"www.apple.com" )!
-        let success = SCNetworkReachabilityGetFlags(address, &flags)
-    
-        let canReach = success && ((flags.rawValue & SCNetworkReachabilityFlags.Reachable.rawValue) != 0)
 
-        return canReach;
-    }
 
     @IBAction func login(sender: AnyObject) {
         
@@ -125,7 +116,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             let alert = Model.sharedInstance().warningAlertView(self,messageString: "Empty email")
             self.presentViewController(alert, animated: true, completion: nil)
             
-        } else if isNetworkAvailable() == false {
+        } else if Model.sharedInstance().isNetworkAvailable() == false {
             let alert = Model.sharedInstance().warningAlertView(self,messageString: "Network not available")
             self.presentViewController(alert, animated: true, completion: nil)
 

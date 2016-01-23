@@ -14,7 +14,7 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
     @IBOutlet weak var mapView: MKMapView!
     
     func pin(){
-        print("In Pin")
+
         let informationPostingViewController = self.storyboard!.instantiateViewControllerWithIdentifier("InformationPostingViewController") as UIViewController!
         presentViewController(informationPostingViewController, animated: true, completion: nil)
         
@@ -28,7 +28,7 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
     
     func logout () {
         Model.sharedInstance().logout(self)
-//        dismissViewControllerAnimated(true, completion: nil)
+
     }
 
     
@@ -48,6 +48,7 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
         super.viewDidLoad()
         populateNavigationBar()
         Model.sharedInstance().getStudentLocations(self)
+        
 
     }
     
@@ -65,7 +66,18 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
         // The "locations" array is loaded with the sample data below. We are using the dictionaries
         // to create map annotations. This would be more stylish if the dictionaries were being
         // used to create custom structs. Perhaps StudentLocation structs.
+        if let locations = locations where locations.count != 0 {
+            let latestUpdatedProfile = locations[0]
+            let lat = CLLocationDegrees(latestUpdatedProfile.latitude)
+            let long = CLLocationDegrees(latestUpdatedProfile.longitude )
+            
+            // The lat and long are used to create a CLLocationCoordinates2D instance.
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+
+            self.mapView.centerCoordinate = coordinate
+        }
         
+
         for student in locations ?? [] {
             
             // Notice that the float values are being used to create CLLocationDegree values.
