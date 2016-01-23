@@ -82,9 +82,14 @@ class TableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if let locations = Model.sharedInstance().studentLocations {
             let mediaURL = locations[indexPath.row].mediaURL
+            
             let app = UIApplication.sharedApplication()
-            app.openURL(NSURL(string: mediaURL)!)
-            print(mediaURL)
+
+            if app.openURL(NSURL(string: mediaURL)!) == false{
+                let alert = Model.sharedInstance().warningAlertView(self, messageString: "Invalid URL")
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+
         }
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

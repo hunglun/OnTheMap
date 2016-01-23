@@ -26,6 +26,10 @@ class InformationPostingViewController : UIViewController, UITextFieldDelegate {
         return true
     }
 
+    @IBAction func cancel(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     @IBOutlet var geocodingActivity: UIActivityIndicatorView!
     @IBAction func findOnTheMapButton(sender: AnyObject) {
         if let location = locationTextField.text as String? ,
