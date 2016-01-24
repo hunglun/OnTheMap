@@ -65,7 +65,7 @@ class  StudentLocationsMapViewController: UIViewController,MKMapViewDelegate{
 
         super.viewWillAppear(animated)
         self.mapView.removeAnnotations(self.mapView.annotations)
-        let locations = Model.sharedInstance().studentLocations
+        let locations = StudentModel.sharedInstance().studentLocations
         
         // We will create an MKPointAnnotation for each student in "locations". The
         // point annotations will be stored in this array, and then provided to the map view.

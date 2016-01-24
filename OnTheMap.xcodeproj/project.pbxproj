@@ -19,6 +19,7 @@
 		FA0EA6141C444B77006BE7DA /* InformationPostingMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EA6131C444B77006BE7DA /* InformationPostingMapViewController.swift */; };
 		FA0EA6161C455893006BE7DA /* StudentLocationsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EA6151C455893006BE7DA /* StudentLocationsMapViewController.swift */; };
 		FA0EA6191C48AE97006BE7DA /* Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0EA6181C48AE96006BE7DA /* Convenience.swift */; };
+		FADEBDEA1C54602600FBDBB4 /* StudentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADEBDE91C54602600FBDBB4 /* StudentModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		FA0EA6151C455893006BE7DA /* StudentLocationsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocationsMapViewController.swift; sourceTree = "<group>"; };
 		FA0EA6181C48AE96006BE7DA /* Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convenience.swift; sourceTree = "<group>"; };
 		FA0EA6211C5123F7006BE7DA /* StudentLocationsTabbedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StudentLocationsTabbedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FADEBDE91C54602600FBDBB4 /* StudentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 			children = (
 				FA0EA5C21C41DE9F006BE7DA /* Model.swift */,
 				FA0EA6181C48AE96006BE7DA /* Convenience.swift */,
+				FADEBDE91C54602600FBDBB4 /* StudentModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -216,6 +219,7 @@
 				FA0EA6121C444066006BE7DA /* InformationPostingViewController.swift in Sources */,
 				FA0EA5B11C41C547006BE7DA /* LoginViewController.swift in Sources */,
 				FA0EA6161C455893006BE7DA /* StudentLocationsMapViewController.swift in Sources */,
+				FADEBDEA1C54602600FBDBB4 /* StudentModel.swift in Sources */,
 				FA0EA6141C444B77006BE7DA /* InformationPostingMapViewController.swift in Sources */,
 				FA0EA6101C43FE75006BE7DA /* TableViewController.swift in Sources */,
 				FA0EA5C11C41D49B006BE7DA /* TabBarController.swift in Sources */,

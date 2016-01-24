@@ -29,7 +29,7 @@ class TableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)        
 
-        self.tableView.reloadData()
+        tableView.reloadData()
         
     }
     
@@ -70,7 +70,7 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellReuseIdentifier) as UITableViewCell!
         
         /* Set cell defaults */
-        if let locations = Model.sharedInstance().studentLocations {
+        if let locations = StudentModel.sharedInstance().studentLocations {
             let studentProfile = locations[indexPath.row]
             cell.textLabel!.text = studentProfile.firstName + " " + studentProfile.lastName
             cell.detailTextLabel!.text = studentProfile.mediaURL
@@ -80,7 +80,7 @@ class TableViewController: UITableViewController {
 
     }
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let locations = Model.sharedInstance().studentLocations {
+        if let locations = StudentModel.sharedInstance().studentLocations {
             let mediaURL = locations[indexPath.row].mediaURL
             
             let app = UIApplication.sharedApplication()
@@ -93,7 +93,7 @@ class TableViewController: UITableViewController {
         }
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let locations = Model.sharedInstance().studentLocations ?? []
+        let locations = StudentModel.sharedInstance().studentLocations ?? []
         return max(locations.count,100)
     }
 }
